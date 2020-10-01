@@ -1,2 +1,2 @@
-# Test
-test
+# MobileComputingCW1
+Mobile Computing Assignment 1

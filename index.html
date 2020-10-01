@@ -1,26 +1,89 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
 </head>
-<body>
+<body class="container">
 
-<div data-role="page">
-  <div data-role="header">
-    <h1>Welcome To My Homepage</h1>
-  </div>
 
-  <div data-role="main" class="ui-content">
-    <p>This is an test</p>
-  </div>
+<!--Page 1-->
+  <div data-role="page">
+    <div data-role="header">
+        <h1>Assignment 1</h1>
+    </div>
+    <div data-role="content">
+      <h3 allignment id="pageheader">Home</h3>
+      <ul data-role="listview" data-split-icon="gear">
+        <li>
+            <a href="goals.html">
+                <h3>Goal of the Final App</h3>
+                <p>This will describe compactly, what the app is for</p>
+            </a>
+            <a href="#item-purchase" data-rel="dialog">Buy now</a>
+        </li>
+        <li>
+            <a href="#personas">
+                <h3>Personas</h3>
+                <p>This will describe a fictional user of the app</p>
+            </a>
+            <a href="#item-purchase" data-rel="dialog">Buy now</a>
+        </li>
+        <li>
+          <a href="#sketches">
+              <h3>Mockups</h3>
+              <p>These will be typical screens the user will encounter</p>
+          </a>
+          <a href="#item-purchase" data-rel="dialog">Buy now</a>
+      </li>
+      <li>
+        <a href="#critique">
+            <h3>Critique</h3>
+            <p>some apps (max 2) available doing the same thing with annotated screen captures if possible</p>
+        </a>
+        <a href="#item-purchase" data-rel="dialog">Buy now</a>
+    </li>
+    <li>
+      <a href="#technologies-frameworks">
+          <h3>Technologies/frameworks</h3>
+          <p>A list of the technologies/frameworks to be used creating the app and how confident you are with each right now.</p>
+      </a>
+      <a href="#item-purchase" data-rel="dialog">Buy now</a>
+  </li>
+    </ul>
+    </div>
+  <!--Footer-->
+    <div data-role="footer" data-position="fixed">
+      <div data-role="navbar">      
+      <ul>
+        <li><a href="#" data-icon="arrow-l">Pervious</a></li>
+        <li><a href="index.html" data-icon="home">Home</a></li>
+        <li><a href="#" data-icon="arrow-r">Next</a></li>
+    </ul>
+    </div>
+    </div>
+</div>
 
-  <div data-role="footer">
-    <h1>Footer Text</h1>
-  </div>
-</div> 
+
+
+
+
+
+
+
+<!--page 2-->
+<div data-role="page" id="page-two">
+    <div data-role="header">
+        <h1>Page 2</h1>
+    </div>
+    <div data-role="content">Body copy for page 2</div>
+    <div data-role="footer">Copyright</div>
+</div>
 
 </body>
 </html>
