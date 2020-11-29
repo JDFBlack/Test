@@ -1,4 +1,4 @@
-var LTV, interestRate, mortgageTerm, taxRate, graphFontColor;
+var LTV, interestRate, mortgageTerm, taxRate, graphFontColor = 'White';
 
 function setVariables(){
   if (localStorage.LTV == null){
@@ -50,8 +50,8 @@ $(document).on('change','#themeFlipswitch', function(){
     sessionStorage.theme = "Light";
   } else {
     $("#mainTheme").html('<link rel="stylesheet" href="css/themes/dark_theme.css" />');
-    graphFontColor = 'white';
-    sessionStorage.theme = "FloralWhite";
+    graphFontColor = 'White';
+    sessionStorage.theme = "Dark";
   }
 })
 
@@ -59,9 +59,11 @@ function loadTheme(){
   if( sessionStorage.theme == "Light"){
     $("#mainTheme").html('<link rel="stylesheet" href="css/themes/light_theme.css" />'); 
     $("#themeFlipswitch").val("Light");
+    graphFontColor = 'DimGrey';
   } else {
     $("#mainTheme").html('<link rel="stylesheet" href="css/themes/dark_theme.css" />');
     $("#themeFlipswitch").val("Dark");
+    graphFontColor = 'White';
   }
 }
 
