@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <div id="mainTheme"><link rel="stylesheet" href="css/themes/dark_theme.css" /></div>
+    <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <script src="js/beforeScreenChange.js"></script>
+    <script src="js/users.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/properties.js"></script>
+    <script>
+      $(document).ready(function(){
+        loadTheme();
+        setVariables();
+      });
+    </script>
+</head>
+<body>
+
+
+
+
+
+<!--Login-->
+<div data-role="page" id="login_screen" data-theme="a">
+  <div data-role="header" data-position="fixed">
+      <h1>Login</h1>
+      <a href="#register_screen" data-icon="grid" class="ui-btn-right">Register</a>
+  </div>
+  <div data-role="content">
+    <div data-role="fieldcontain">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter username">
+    </div>
+    <div data-role="fieldcontain">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter password">
+    </div>
+    <div data-role="fieldcontain">
+      <a href="javascript:checkLogin()" id="login" data-role="button">Login</a>
+    </div>
+  </div>
+<!--Footer-->
+  <div data-role="footer" data-position="fixed">
+      <h1>Copyright JDFB 2020</h1>
+  </div>
+
+  <div data-role="popup" id="pwdalert">
+      <div data-role="header" data-theme="b">
+        <h1>Wrong</h1>
+        <a href="#" data-icon="delete" data-rel="back" data-iconpos="notext"></a>
+      </div>
+      <div data-role="content">Username/ Password is wrong!</div>
+  </div> <!--incorrect username/passowrd popup, ID is refered to in checkLogin()-->
+</div> <!--End Login-->
+
+
+
+
+
+
+
+<!--Register-->
+<div data-role="page" id="register_screen" data-theme="a">
+  <div data-role="header" data-position="fixed">
+      <h1>Register</h1>
+      <a href="#login_screen" data-icon="back" class="ui-btn-left">Cancel</a>
+  </div>
+  <div data-role="content">
+      <label for="regusername">Username</label>
+      <input type="text" id="regusername" placeholder="Enter a username">
+
+      <label for="regpassword">Password</label>
+      <input type="password" id="regpassword" placeholder="Enter a password">
+
+      <div data-role="controlgroup">
+        <fieldset>
+          <legend>Gender</legend>
+          <input type="radio" id="male" name="gender">
+          <label for="male">Male</label>
+          <input type="radio" id="female" name="gender">
+          <label for="female">Female</label>
+      </fieldset>
+      </div>
+
+
+        <fieldset data-role="controlgroup">
+          <legend>Main purpose for using this application</legend>
+          <input type="checkbox" id="investor" name="interest">
+          <label for="investor">Property Investor</label>
+          <input type="checkbox" id="sourcer" name="interests">
+          <label for="sourcer">Deal Sourcer</label>
+          <input type="checkbox" id="others" name="interests">
+          <label for="others">Other</label>
+      </fieldset>
+  
+
+    <div data-role="fieldcontain">
+      <a href="javascript:registerUser()" data-role="button">Register</a> <!--runs function when clicked-->
+    </div>
+  </div>
+<!--Footer-->
+  <div data-role="footer" data-position="fixed">
+      <h1>Copyright JDFB 2020</h1>
+  </div>
+</div>
+</html> <!--End User Register-->
+
+
+
+
+
+
+
+<!--List View-->
+<div data-role="page" id="property_list_screen" data-theme="a">
+  <div data-role="header" data-position="fixed">
+      <h1>Property List</h1>
+  </div>
+  <div data-role="content">
+    <ul data-role="listview" id="property_list" data-inset="true" data-filter="true" data-split-icon="edit" data-split-theme="a">
+
+    </ul>
+
+  </div>
+<!--Footer-->
+<div data-role="footer" data-position="fixed">
+  <div data-role="navbar">      
+  <ul>
+    <li><a href="" data-icon="star">Compare</a></li>
+    <li><a href="javascript:addEditDeleteProperty(-1)" data-icon="plus">Add Property</a></li>
+    <li><a href="#settings_screen" data-icon="gear">Settings</a></li>
+</ul>
+</div>
+</div> <!--end of footer-->
+
+</div> <!--End List View-->
+
+
+
+
+
+
+
+<!--Property View-->
+<div data-role="page" id="property_screen" data-theme="a">
+  <div data-role="header" data-position="fixed" data-tap-toggle="false">
+      <h1 id="propertybreakdownh3">Property Breakdown</h1>
+      <a href="#" data-icon="back" data-rel="back" class="ui-btn-right">Back</a>
+  </div>
+  <div data-role="content" id="property_breakdown"></div> <!--Div where code content is inserted-->
+<!--Footer-->
+<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+  <div data-role="navbar">
+  <ul><li style="margin-bottom: 2px;" id="property_breakdown_footer"></li></ul>       
+  <ul>
+    <li><a href="#property_list_screen" data-icon="home">Home</a></li>
+    <li><a href="javascript:addEditDeleteProperty(-1)" data-icon="plus">Add Property</a></li>
+    <li><a href="#settings_screen" data-icon="gear">Settings</a></li>
+</ul>
+</div>
+</div> <!--end of footer-->
+
+</div> <!--End Property View-->
+
+
+
+
+
+
+
+
+<!--Property Directions-->
+<div data-role="page" id="property_directions" data-theme="a">
+  <div data-role="header" data-position="fixed">
+      <h1 id="propertydirectionsh3">Directions</h1>
+      <a href="#" data-icon="back" data-rel="back" class="ui-btn-right">Back</a>
+  </div>
+  <div data-role="content" id="property_directions_content"></div> <!--Div where code content is inserted-->
+<!--Footer-->
+<div data-role="footer" data-position="fixed">
+  <div data-role="navbar">  
+  <ul>
+    <li><a href="#property_list_screen" data-icon="home">Home</a></li>
+    <li><a href="javascript:addEditDeleteProperty(-1)" data-icon="plus">Add Property</a></li>
+    <li><a href="#settings_screen" data-icon="gear">Settings</a></li>
+</ul>
+</div>
+</div> <!--end of footer-->
+
+</div> <!--End Property View-->
+
+
+
+
+
+
+
+
+
+<!--Add Property-->
+<div data-role="page" id="property_add_screen" data-theme="a">
+<div data-role="header" data-position="fixed">
+    <a href="#" data-icon="back" data-rel="back" class="ui-btn-right">Cancel</a>
+    <a href="javascript:deleteProperty()" data-icon="delete"  class="ui-btn-left" id="deleteproperty">Delete</a>
+    <h1 id="addedith1">Add Property</h1>
+
+</div>
+<div data-role="content">
+
+    <label for="address">Address</label>
+    <input type="text" id="address" placeholder="Enter address">
+
+    <input type="text" id="county" placeholder="Enter county">
+
+
+    <input type="text" id="city" placeholder="Enter city">
+
+    <input type="text" id="postcode" placeholder="Enter postcode">
+
+    <label for="marketvalue">Market Value</label>
+    <input type="number" id="marketvalue" placeholder="Enter market value">
+
+    <label for="rent">Monthly Rent</label>
+    <input type="number" id="rent" placeholder="Enter expected rent">
+
+    <label for="expenses">Monthly Expenses</label>
+    <input type="number" id="expenses" placeholder="Enter expenses">
+
+    <label for="bedrooms">Bedrooms</label>
+    <select id="bedrooms">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5+">5+</option>
+    </select>
+
+    <label for="sqft">Area (SqFt)</label>
+    <input type="number" id="sqft" placeholder="Enter area">
+
+    <label for="thumbnail">Upload Image</label>
+    <input type="file" accept="image/*" id="thumbnail">
+
+
+    <div data-role="fieldcontain" style="display: none">
+    <div id="propidholder" style="display: none"> 
+    <input type="text" id="prop_id" readonly>
+    </div>
+  </div>
+    
+  <div data-role="fieldcontain">
+    <a href="javascript:addProperty()" data-role="button" id="propaddedit">Add</a>
+  </div>
+</div>
+
+
+<!--Footer-->
+<div data-role="footer" data-position="fixed">
+  <div data-role="navbar">    
+  <ul>
+    <li><a href="#property_list_screen" data-icon="home">Home</a></li>
+    <li><a href="" data-icon="plus" style="display:none"></a></li>
+    <li><a href="#settings_screen" data-icon="gear">Settings</a></li>
+</ul>
+</div>
+</div> 
+
+<div data-role="popup" id="confirmdelete">
+    <div data-role="header" data-theme="b">
+      <h1>Warning</h1>
+    </div>
+    <div data-role="content">
+        Do you really want to delete?
+        <a href="" data-icon="delete" data-iconpos="notext"></a>
+    </div>
+    <div data-role="footer" style="text-align: center">
+        <a href="" data-rel="back" data-role="button">Back</a>
+        <a href="javascript:deleteConfirm()" data-role="button">OK</a>
+    </div>
+</div>
+</div> <!--End Add Property-->
+
+
+
+
+
+<!--Settings-->
+<div data-role="page" id="settings_screen" data-theme="a">
+  <div data-role="header" data-position="fixed">
+      <h1 id="propertybreakdownh1">Settings</h1>
+      <a href="#" data-icon="back" data-rel="back" class="ui-btn-right">Back</a>
+  </div>
+  <div data-role="content" id="settingsContent">
+
+
+    <label for="ltv">Loan To Value %</label>
+    <input type="range" id="ltv" min="25" value="50" max="100">
+    <label for="mortgageTerm">Mortgage Term (Years)</label>
+    <input type="range" id="mortgageTerm" min="0" value="20" max="35">
+    <label for="interestRate">Interest Rate %</label>
+    <input type="number" id="interestRate" placeholder="Enter interest rate %">
+
+    <label for="taxRate">Tax Rate %</label>
+    <input type="number" id="taxRate" placeholder="Enter tax rate">
+
+    
+  <div data-role="fieldcontain">
+    <a href="javascript:confirmSettings()" data-role="button" id="confirmSettings">Confirm Changes</a>
+  </div>
+
+  <a href="javascript:confirmClearData()" class="ui-btn ui-btn-inline">Clear Data</a>
+  <a href="javascript:logout()" class="ui-btn ui-btn-inline">Logout</a>
+  <select name="themeFlipswitch" id="themeFlipswitch" data-role="flipswitch">
+    <option value="Dark">Dark</option>
+    <option value="Light">Light</option>
+</select>
+  </div>
+<!--Footer-->
+<div data-role="footer" data-position="fixed">
+  <div data-role="navbar">      
+  <ul>
+    <li><a href="#property_list_screen" data-icon="home">Home</a></li>
+    <li><a href="javascript:addEditDeleteProperty(-1)" data-icon="plus">Add Property</a></li>
+    <li><a href="#" data-icon="gear" style="display:none"></a></li>
+</ul>
+</div>
+</div> <!--end of footer-->
+
+<div data-role="popup" id="confirmClearData">
+  <div data-role="header" data-theme="b">
+    <h1>Warning</h1>
+  </div>
+  <div data-role="content">
+      <p>Are you sure you wish to clear your data?</p>
+      <a href="" data-icon="delete" data-iconpos="notext"></a>
+  </div>
+  <div data-role="footer" style="text-align: center">
+      <a href="" data-rel="back" data-role="button">Back</a>
+      <a href="javascript:clearData()" data-role="button">OK</a>
+  </div>
+</div>
+
+</div> <!--End Settings-->
+
+
+
+
+
+</body>

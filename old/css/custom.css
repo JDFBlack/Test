@@ -1,0 +1,25 @@
+.ui_body_success{
+    border:1px solid #24AF11;
+    color:#333;
+    text-shadow:0 1px 1 #fff;
+    background: #89F07C;
+    background-image:-webkit-gradient(linear, left top, left bottom, from(#fff), to#89F07C);
+    background-image:-webkit-linear-gradient(top,#fff,#89F07C);
+    background-image:-moz-linear-gradient(top,#fff,#89F07C);
+    background-image:-ms-linear-gradient(top,#fff,#89F07C);
+    background-image:-o-linear-gradient(top,#fff,#89F07C);
+    background-image:linear-gradient(top,#fff,#89F07C);
+}
+
+.ui_body_error{
+    border:1px solid #F7503A;
+    color:#333;
+    text-shadow:0 1px 1 #fff;
+    background: #FBB99E;
+    background-image:-webkit-gradient(linear, left top, left bottom, from(#fff), to#FBB99E);
+    background-image:-webkit-linear-gradient(top,#fff,#FBB99E);
+    background-image:-moz-linear-gradient(top,#fff,#FBB99E);
+    background-image:-ms-linear-gradient(top,#fff,#FBB99E;
+    background-image:-o-linear-gradient(top,#fff,#FBB99E);
+    background-image:linear-gradient(top,#fff,#FBB99E;
+}
