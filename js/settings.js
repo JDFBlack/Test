@@ -1,4 +1,4 @@
-var LTV, interestRate, mortgageTerm, taxRate, graphFontColor = 'White';
+var LTV, interestRate, mortgageTerm, taxRate, legalFees, graphFontColor = 'White';
 
 function setVariables(){
   if (localStorage.LTV == null){
@@ -16,6 +16,10 @@ function setVariables(){
   if (localStorage.taxRate == null){
     taxRate = 19;
   } else {taxRate = localStorage.taxRate;
+  }
+  if (localStorage.legalFees == null){
+    legalFees = 1000;
+  } else {legalFees = localStorage.legalFees;
   }
 }
 
@@ -35,11 +39,13 @@ function confirmSettings(){
     interestRate = $("#interestRate").val();
     mortgageTerm = $("#mortgageTerm").val();
     taxRate = $("#taxRate").val();
+    legalFees = $("#legalFees").val();
 
     localStorage.LTV = LTV;
     localStorage.interestRate = interestRate;
     localStorage.mortgageTerm = mortgageTerm;
     localStorage.taxRate = taxRate;
+    localStorage.legalFees = legalFees;
     $.mobile.back(); 
 }
 

@@ -18,6 +18,7 @@ $(document).on("pagecontainerbeforechange",function(ev,ui){
         $("#interestRate").val(interestRate);
         $("#mortgageTerm").val(mortgageTerm);
         $("#taxRate").val(taxRate);
+        $("#legalFees").val(legalFees);
   } else if (ui.toPage[0].id === "property_add_screen"){
 
       var propObj = ui.options.property;
@@ -30,8 +31,11 @@ $(document).on("pagecontainerbeforechange",function(ev,ui){
           $("#postcode").val(propObj.postcode);
           $("#marketvalue").val(propObj.marketvalue);
           $("#rent").val(propObj.rent);
+          $("#rentReview").val(propObj.rentReview);
+          $("#rentReviewPeriod").val(propObj.rentReviewPeriod);
           $("#expenses").val(propObj.expenses);
           $("#bedrooms").val(propObj.bedrooms).selectmenu("refresh"); //ensures repopulated to correct option
+          $("#hpi").val(propObj.hpi);
           $("#sqft").val(propObj.sqft);
           //$("#thumbnail").val(propObj.thumbnail);
           $("#propaddedit").html('Edit');
@@ -49,9 +53,12 @@ $(document).on("pagecontainerbeforechange",function(ev,ui){
           $("#postcode").val(null);
           $("#marketvalue").val(null);
           $("#rent").val(null);
+          $("#rentReview").val(null);
+          $("#rentReviewPeriod").val(null);
           $("#expenses").val(null);
           $("#bedrooms").val("2").selectmenu("refresh"); //ensures repopulated to correct option
           $("#sqft").val(null);
+          $("#hpi").val(null);
           $("#thumbnail").val(null);
           
       } 

@@ -13,6 +13,9 @@ var properties = []; //empty global array to store properties added below.
         var bedrooms = $("#bedrooms").val();
         var sqft = $("#sqft").val();
         var thumbnail = $("#thumbnail").val();
+        var hpi = $("#hpi").val();
+        var rentReview = $("#rentReview").val();
+        var rentReviewPeriod = $("#rentReviewPeriod").val();
 
         var annualRent = rent*12;
         var yield = ((annualRent/marketvalue)*100);
@@ -20,11 +23,11 @@ var properties = []; //empty global array to store properties added below.
         var propObj = {};
 
         if(s === -1){ // IF NEW
-          propObj = {propid: properties.length, address:address,county:county,city:city,postcode:postcode,marketvalue:marketvalue,rent:rent,expenses:expenses,bedrooms:bedrooms,sqft:sqft,yield:yield,ppsqft:ppsqft, annualRent:annualRent, thumbnail:thumbnail};
+          propObj = {propid: properties.length, address:address,county:county,city:city,postcode:postcode,marketvalue:marketvalue,rent:rent,expenses:expenses,bedrooms:bedrooms,sqft:sqft,yield:yield,ppsqft:ppsqft, annualRent:annualRent, hpi:hpi, rentReview: rentReview, rentReviewPeriod: rentReviewPeriod, thumbnail:thumbnail};
           properties.push(propObj);
 
         } else { //IF EDIT
-          propObj = {propid: propid,  address:address,county:county,city:city,postcode:postcode,marketvalue:marketvalue,rent:rent,expenses:expenses,bedrooms:bedrooms,sqft:sqft,yield:yield,ppsqft:ppsqft,annualRent:annualRent, thumbnail:thumbnail};
+          propObj = {propid: propid,  address:address,county:county,city:city,postcode:postcode,marketvalue:marketvalue,rent:rent,expenses:expenses,bedrooms:bedrooms,sqft:sqft,yield:yield,ppsqft:ppsqft,annualRent:annualRent, hpi:hpi, rentReview: rentReview, rentReviewPeriod: rentReviewPeriod, thumbnail:thumbnail};
           properties.splice(propid,1,propObj);
  
         }
@@ -60,6 +63,9 @@ var properties = []; //empty global array to store properties added below.
           propObj = properties[i];
 
           var annualRent = properties[i].annualRent;
+          var HPI = properties[i].hpi;
+          var rentReview = properties[i].rentReview; //Needs changed
+          var rentReviewPeriod = properties[i].rentReviewPeriod;
           var mv = properties[i].marketvalue*1; //needs to be *1 for toFixed() to work, no idea why 
           var FutureMV = mv;
           var loanAmount = mv * ((100-LTV)/100);     
@@ -74,19 +80,17 @@ var properties = []; //empty global array to store properties added below.
           var equity =  deposit;
 
           var equityTax = equityPayment*taxRateDecimal;
-          var outgoings = ((equityPayment + equityTax) + interestPayment)*12;
+          var mortgageOutgoings = ((equityPayment + equityTax) + interestPayment)*12;
           var taxFree = (1-taxRateDecimal);
           var investmentReturn = 0;
           var totalCashReturn = 0;
-
+          legalFees = legalFees*1;
           
-          var legalFees = 1000; //need to assign legal fees a variable
-          var HPI = 2;
-          var rentReview = 2;
+
           var initialInvestment = (deposit + SDLT + legalFees);
           var upfrontCosts = SDLT + legalFees
 
-          var netCashflow = ((annualRent - outgoings)*taxFree)-upfrontCosts;
+          var netCashflow = ((annualRent - mortgageOutgoings)*taxFree)-upfrontCosts;
 
           var tableRows = (mortgageTerm * 1)+5; //table will be length of mortgage plus 5 years into the future
           
@@ -118,11 +122,12 @@ var properties = []; //empty global array to store properties added below.
           $('#breakdownThumbnail').attr("src", thumbnail);*/
             
         var ctx = document.getElementById('myChart').getContext('2d');
-            var EquityData = [];
-            var NetCashflowData = [];
-            var mvData = [];
-            var ROIData = [];
-            var ROIPercentData = [];
+        var EquityData = [];
+        var NetCashflowData = [];
+        var mvData = [];
+        var ROIData = [];
+        var ROIPercentData = [];
+
             var chart = new Chart(ctx, {
               type: 'line',
               data: {
@@ -134,7 +139,7 @@ var properties = []; //empty global array to store properties added below.
                       borderColor: "#3e95cd",
                       fill: false,
                       lineTension: 0,
-                      pointRadius: 0,
+                      //pointRadius: 0,
                   },
                   {
                       label: 'Net Cashflow',
@@ -143,7 +148,7 @@ var properties = []; //empty global array to store properties added below.
                       borderColor: "#e8c3b9",
                       fill: false,
                       lineTension: 0,
-                      pointRadius: 0,
+                      //pointRadius: 0,
                   },
                   {
                     label: 'Market Value',
@@ -170,7 +175,7 @@ var properties = []; //empty global array to store properties added below.
                     borderColor: "#3cba9f",
                     fill: false,
                     lineTension: 0,
-                    pointRadius: 0,
+                    //pointRadius: 0,
                 }],
               },
                 options: {
@@ -213,7 +218,7 @@ var properties = []; //empty global array to store properties added below.
         $("#property_breakdown").append('<br><table class="table-stripe" id="tableSummary"><thead><tr><th style="width: 13%">Year</th><th style="width: 29%">Equity</th><th style="width: 29%">Net Cashflow</th><th style="width: 29%">ROI</th></tr></thead><tbody>');//table head
         
         //FOR loop generating table contents
-        
+        var mortgageTermPlusOne = (mortgageTerm*1)+1;
         for(var j = 0; j<=tableRows; j++){
         
         chart.data.labels.push("Yr "+j); //push x axis on chart
@@ -221,48 +226,48 @@ var properties = []; //empty global array to store properties added below.
         CapitalGrowth = FutureMV - futureValue(mv, HPI, j-1);
         totalCashReturn = totalCashReturn + netCashflow;
         
+        if((j+1) % rentReviewPeriod == 0 && j != 0){
+          annualRent=(annualRent+(annualRent*(rentReview/100))); //annual rent increases 5% PA;
+        }
+
         if (j == 0){
-              $("#tableSummary").append('<tr><td>'+j+'</td><td>£'+equity.toFixed(2)+'</td><td>£'+netCashflow.toFixed(2)+'</td><td>'+calcROI(initialInvestment, investmentReturn).toFixed(2)+'%</td></tr>');
-              investmentReturn = equity + totalCashReturn;
-              EquityData.push(equity.toFixed(2));
-              NetCashflowData.push(netCashflow.toFixed(2));
-              mvData.push(FutureMV.toFixed(2));
-
-              netCashflow = (annualRent - outgoings)*taxFree;
+                                  
+                                  investmentReturn = equity + totalCashReturn;
+                                  pushGraphData(EquityData, equity, mvData, FutureMV, NetCashflowData, netCashflow);
+                                  $("#tableSummary").append('<tr><td>'+j+'</td><td>£'+equity.toFixed(2)+'</td><td>£'+netCashflow.toFixed(2)+'</td><td>'+calcROI(initialInvestment, investmentReturn).toFixed(2)+'%</td></tr>');
+                                  netCashflow = (annualRent - mortgageOutgoings)*taxFree;
               
-         } else if (j < mortgageTerm){
-
-              equity = equity + (equityPayment*12) + CapitalGrowth;
-              investmentReturn = equity + totalCashReturn;
-              EquityData.push(equity.toFixed(2));
-              NetCashflowData.push(netCashflow.toFixed(2));
-              mvData.push(FutureMV.toFixed(2));
-              $("#tableSummary").append('<tr><td>'+j+'</td><td>£'+equity.toFixed(2)+'</td><td>£'+netCashflow.toFixed(2)+'</td><td>'+calcROI(initialInvestment, investmentReturn).toFixed(2)+'%</td></tr>');
-              netCashflow = (annualRent - outgoings)*taxFree;
+         } else if (j < (mortgageTerm*1-1)){
+          
+                                  equity = equity + (equityPayment*12) + CapitalGrowth;
+                                  investmentReturn = equity + totalCashReturn;
+                                  pushGraphData(EquityData, equity, mvData, FutureMV, NetCashflowData, netCashflow);
+                                  $("#tableSummary").append('<tr><td>'+j+'</td><td>£'+equity.toFixed(2)+'</td><td>£'+netCashflow.toFixed(2)+'</td><td>'+calcROI(initialInvestment, investmentReturn).toFixed(2)+'%</td></tr>');
+                                  netCashflow = (annualRent - mortgageOutgoings)*taxFree;
               
-          } else if (j == mortgageTerm){
-              equity = equity + (equityPayment*12) + CapitalGrowth;
-              investmentReturn = equity + totalCashReturn;
-              EquityData.push(equity.toFixed(2));
-              netCashflow = annualRent*taxFree;
-              NetCashflowData.push(netCashflow.toFixed(2));
-              mvData.push(FutureMV.toFixed(2));
-              $("#tableSummary").append('<tr><td>'+j+'</td><td>£'+equity.toFixed(2)+'</td><td>£'+netCashflow.toFixed(2)+'</td><td>'+calcROI(initialInvestment, investmentReturn).toFixed(2)+'%</td></tr>');
-                           
+          } else if (j == (mortgageTerm*1-1) || j == mortgageTerm){
+              
+                                  equity = equity + (equityPayment*12) + CapitalGrowth;
+                                  investmentReturn = equity + totalCashReturn;
+                                  pushGraphData(EquityData, equity, mvData, FutureMV, NetCashflowData, netCashflow)
+                                  $("#tableSummary").append('<tr><td>'+j+'</td><td>£'+equity.toFixed(2)+'</td><td>£'+netCashflow.toFixed(2)+'</td><td>'+calcROI(initialInvestment, investmentReturn).toFixed(2)+'%</td></tr>');
+                                  netCashflow = annualRent*taxFree;
+
           } else if (j <= tableRows){
-              equity = equity + CapitalGrowth;
-              investmentReturn = equity + totalCashReturn;
-              NetCashflowData.push(netCashflow.toFixed(2));
-              mvData.push(FutureMV.toFixed(2));
-              $("#tableSummary").append('<tr><td>'+j+'</td><td>£'+equity.toFixed(2)+'</td><td>£'+netCashflow.toFixed(2)+'</td><td>'+calcROI(initialInvestment, investmentReturn).toFixed(2)+'%</td></tr>');
-              netCashflow = annualRent*taxFree;
-              EquityData.push(equity.toFixed(2));
-
+                                  equity = equity + CapitalGrowth;
+                                  investmentReturn = equity + totalCashReturn;
+                                  pushGraphData(EquityData, equity, mvData, FutureMV, NetCashflowData, netCashflow)
+                                  $("#tableSummary").append('<tr><td>'+j+'</td><td>£'+equity.toFixed(2)+'</td><td>£'+netCashflow.toFixed(2)+'</td><td>'+calcROI(initialInvestment, investmentReturn).toFixed(2)+'%</td></tr>');     
+                                  netCashflow = annualRent*taxFree; 
           }
-  
+          
+          
+          
+
           ROIData.push(investmentReturn).toFixed(2);
           ROIPercentData.push(calcROI(initialInvestment, investmentReturn).toFixed(2));
-          annualRent=(annualRent+(annualRent*(rentReview/100))); //annual rent increases 5% PA;
+          
+         
         }
 
         
@@ -409,5 +414,12 @@ var properties = []; //empty global array to store properties added below.
           futureMV = futureMV + (futureMV*hpi);
             }
         return futureMV;
-    } 
+    }
+  }
+
+  function pushGraphData(EquityData, equity, mvData, FutureMV, NetCashflowData, netCashflow){
+      EquityData.push(equity.toFixed(2));
+      mvData.push(FutureMV.toFixed(2));
+      NetCashflowData.push(netCashflow.toFixed(2));
+
   }
