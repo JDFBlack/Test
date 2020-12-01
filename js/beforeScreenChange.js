@@ -25,10 +25,12 @@ $(document).on("pagecontainerbeforechange",function(ev,ui){
       $("#prop_id").val(propObj.propid);
       if (propObj.propid !== (-1)){
           //restore values
-          $("#address").val(propObj.address);
-          $("#county").val(propObj.county);
-          $("#city").val(propObj.city);
-          $("#postcode").val(propObj.postcode);
+          $("#autocomplete").val(null);
+          $("#street_number").val(propObj.streetNum);
+          $("#route").val(propObj.street);
+          $("#administrative_area_level_1").val(propObj.county);
+          $("#postal_town").val(propObj.city);
+          $("#postal_code").val(propObj.postcode);
           $("#marketvalue").val(propObj.marketvalue);
           $("#rent").val(propObj.rent);
           $("#rentReview").val(propObj.rentReview);
@@ -40,25 +42,27 @@ $(document).on("pagecontainerbeforechange",function(ev,ui){
           //$("#thumbnail").val(propObj.thumbnail);
           $("#propaddedit").html('Edit');
           $("#deleteproperty").show(); //show delete button
-          $("#addedit").html('Edit Property');
+          $("#addedith1").html('Edit Property');
 
       }else{
           $("#propaddedit").html('Add');
           $("#deleteproperty").hide(); //hide delete button
           $("#addedith1").html('Add Property');
           //Clear values
-          $("#address").val(null);
-          $("#county").val(null);
-          $("#city").val(null);
-          $("#postcode").val(null);
+          $("#autocomplete").val(null);
+          $("#street_number").val(null);
+          $("#route").val(null);
+          $("#administrative_area_level_1").val(null);
+          $("#postal_town").val(null);
+          $("#postal_code").val(null);
           $("#marketvalue").val(null);
           $("#rent").val(null);
-          $("#rentReview").val(null);
-          $("#rentReviewPeriod").val(null);
+          $("#rentReview").val(2);
+          $("#rentReviewPeriod").val(5);
           $("#expenses").val(null);
           $("#bedrooms").val("2").selectmenu("refresh"); //ensures repopulated to correct option
           $("#sqft").val(null);
-          $("#hpi").val(null);
+          $("#hpi").val(2);
           $("#thumbnail").val(null);
           
       } 

@@ -3,10 +3,13 @@ var properties = []; //empty global array to store properties added below.
       function addProperty(){
         var propid = $("#prop_id").val();
         var s = parseInt(propid); 
-        var address = $("#address").val();
-        var county = $("#county").val();
-        var city = $("#city").val();
-        var postcode = $("#postcode").val();
+        var streetNum = $("#street_number").val();
+        var street = $("#route").val();
+        var locality = $("#locality").val();
+        var county = $("#administrative_area_level_1").val();
+        var city = $("#postal_town").val();
+        var district = $("#administrative_area_level_2").val();
+        var postcode = $("#postal_code").val();
         var marketvalue = $("#marketvalue").val();
         var rent = $("#rent").val();
         var expenses = $("#expenses").val();
@@ -16,6 +19,7 @@ var properties = []; //empty global array to store properties added below.
         var hpi = $("#hpi").val();
         var rentReview = $("#rentReview").val();
         var rentReviewPeriod = $("#rentReviewPeriod").val();
+        var address = streetNum + " " + street;
 
         var annualRent = rent*12;
         var yield = ((annualRent/marketvalue)*100);
@@ -23,11 +27,11 @@ var properties = []; //empty global array to store properties added below.
         var propObj = {};
 
         if(s === -1){ // IF NEW
-          propObj = {propid: properties.length, address:address,county:county,city:city,postcode:postcode,marketvalue:marketvalue,rent:rent,expenses:expenses,bedrooms:bedrooms,sqft:sqft,yield:yield,ppsqft:ppsqft, annualRent:annualRent, hpi:hpi, rentReview: rentReview, rentReviewPeriod: rentReviewPeriod, thumbnail:thumbnail};
+          propObj = {propid: properties.length, address:address, streetNum:streetNum, street:street, locality: locality, county:county,city:city, district:district, postcode:postcode,marketvalue:marketvalue,rent:rent,expenses:expenses,bedrooms:bedrooms,sqft:sqft,yield:yield,ppsqft:ppsqft, annualRent:annualRent, hpi:hpi, rentReview: rentReview, rentReviewPeriod: rentReviewPeriod, thumbnail:thumbnail};
           properties.push(propObj);
 
         } else { //IF EDIT
-          propObj = {propid: propid,  address:address,county:county,city:city,postcode:postcode,marketvalue:marketvalue,rent:rent,expenses:expenses,bedrooms:bedrooms,sqft:sqft,yield:yield,ppsqft:ppsqft,annualRent:annualRent, hpi:hpi, rentReview: rentReview, rentReviewPeriod: rentReviewPeriod, thumbnail:thumbnail};
+          propObj = {propid: propid, streetNum:streetNum, address:address, street:street, locality: locality, county:county,city:city,district:district, postcode:postcode,marketvalue:marketvalue,rent:rent,expenses:expenses,bedrooms:bedrooms,sqft:sqft,yield:yield,ppsqft:ppsqft,annualRent:annualRent, hpi:hpi, rentReview: rentReview, rentReviewPeriod: rentReviewPeriod, thumbnail:thumbnail};
           properties.splice(propid,1,propObj);
  
         }
@@ -139,7 +143,7 @@ var properties = []; //empty global array to store properties added below.
                       borderColor: "#3e95cd",
                       fill: false,
                       lineTension: 0,
-                      //pointRadius: 0,
+                      pointRadius: 0,
                   },
                   {
                       label: 'Net Cashflow',
@@ -148,7 +152,7 @@ var properties = []; //empty global array to store properties added below.
                       borderColor: "#e8c3b9",
                       fill: false,
                       lineTension: 0,
-                      //pointRadius: 0,
+                      pointRadius: 0,
                   },
                   {
                     label: 'Market Value',
@@ -175,7 +179,7 @@ var properties = []; //empty global array to store properties added below.
                     borderColor: "#3cba9f",
                     fill: false,
                     lineTension: 0,
-                    //pointRadius: 0,
+                    pointRadius: 0,
                 }],
               },
                 options: {
@@ -290,6 +294,8 @@ var properties = []; //empty global array to store properties added below.
     function directionsProperty(i){
           var propObj = {};
           var origin = "BT476BE";
+          //var origin = geolocate();
+          console.log(origin);
           var destination = properties[i].postcode;
           propObj = properties[i];
 
@@ -300,6 +306,22 @@ var properties = []; //empty global array to store properties added below.
 
         $("#property_directions_content").append('<div id="embedmap-display"><iframe style="height:75vh;width:100%;border:0;" frameborder="0" src="https://www.google.com/maps/embed/v1/directions?origin='+origin+'&destination='+destination+'&zoom=12&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"></iframe></div>');
         $.mobile.pageContainer.pagecontainer("change","#property_directions",{property:propObj, transition:"slide"})
+    }
+
+    function geolocate() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const geolocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          const circle = new google.maps.Circle({
+            center: geolocation,
+            radius: position.coords.accuracy,
+          });
+          autocomplete.setBounds(circle.getBounds());
+        });
+      }
     }
 
     
