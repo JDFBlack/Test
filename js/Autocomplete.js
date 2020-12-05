@@ -17,7 +17,7 @@ const componentForm = {
 function initAutocomplete() {
   autocomplete = new google.maps.places.Autocomplete( // Create the autocomplete object, restricting the search predictions to geographical location types.
     document.getElementById("autocomplete"),
-    { types: ["address"],
+    { types: ["geocode"],
           componentRestrictions: {country: "UK"},
     }
   );

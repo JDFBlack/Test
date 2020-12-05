@@ -53,10 +53,12 @@ $(document).on('change','#themeFlipswitch', function(){
   if ($("#themeFlipswitch").val() == 'Light') {
     $("#mainTheme").html('<link rel="stylesheet" href="css/themes/light_theme.css" />');
     graphFontColor = 'DimGrey';
+    graphGridColor = 'LightGrey';
     sessionStorage.theme = "Light";
   } else {
     $("#mainTheme").html('<link rel="stylesheet" href="css/themes/dark_theme.css" />');
     graphFontColor = 'White';
+    graphGridColor = 'Grey';
     sessionStorage.theme = "Dark";
   }
 })
@@ -66,10 +68,12 @@ function loadTheme(){
     $("#mainTheme").html('<link rel="stylesheet" href="css/themes/light_theme.css" />'); 
     $("#themeFlipswitch").val("Light");
     graphFontColor = 'DimGrey';
+    graphGridColor = 'LightGrey';
   } else {
     $("#mainTheme").html('<link rel="stylesheet" href="css/themes/dark_theme.css" />');
     $("#themeFlipswitch").val("Dark");
     graphFontColor = 'White';
+    graphGridColor = 'Grey';
   }
 }
 

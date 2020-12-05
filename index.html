@@ -10,11 +10,14 @@
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmcwTUpRVdTSUdnTnShvJtt7qgxsFsl3M&callback=initAutocomplete&libraries=places&v=weekly" defer></script>
-    <script src="js/Autocomplete.js"></script>
+    <script src="js/autocomplete.js"></script>
     <script src="js/beforeScreenChange.js"></script>
     <script src="js/users.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/properties.js"></script>
+    <script src="js/viewProperty.js"></script>
+    <script src="js/compareProperty.js"></script>
+    <script src="js/directions.js"></script>
     <script>
       $(document).ready(function(){
         loadTheme();
@@ -30,7 +33,7 @@
 
 <!--Login-->
 <div data-role="page" id="login_screen" data-theme="a">
-  <div data-role="header" data-position="fixed">
+  <div data-role="header" data-position="fixed" data-tap-toggle="false">
       <h1>Login</h1>
       <a href="#register_screen" data-icon="grid" class="ui-btn-right">Register</a>
   </div>
@@ -48,16 +51,16 @@
     </div>
   </div>
 <!--Footer-->
-  <div data-role="footer" data-position="fixed">
+  <div data-role="footer" data-position="fixed" data-tap-toggle="false">
       <h1>Copyright JDFB 2020</h1>
   </div>
 
   <div data-role="popup" id="pwdalert">
       <div data-role="header" data-theme="b">
-        <h1>Wrong</h1>
+        <h1>Errorr</h1>
         <a href="#" data-icon="delete" data-rel="back" data-iconpos="notext"></a>
       </div>
-      <div data-role="content">Username/ Password is wrong!</div>
+      <div data-role="content">Username/ Password is incorrect!</div>
   </div> <!--incorrect username/passowrd popup, ID is refered to in checkLogin()-->
 </div> <!--End Login-->
 
@@ -69,7 +72,7 @@
 
 <!--Register-->
 <div data-role="page" id="register_screen" data-theme="a">
-  <div data-role="header" data-position="fixed">
+  <div data-role="header" data-position="fixed" data-tap-toggle="false">
       <h1>Register</h1>
       <a href="#login_screen" data-icon="back" class="ui-btn-left">Cancel</a>
   </div>
@@ -107,7 +110,7 @@
     </div>
   </div>
 <!--Footer-->
-  <div data-role="footer" data-position="fixed">
+  <div data-role="footer" data-position="fixed" data-tap-toggle="false">
       <h1>Copyright JDFB 2020</h1>
   </div>
 </div>
@@ -134,7 +137,7 @@
 <div data-role="footer" data-position="fixed" data-tap-toggle="false">
   <div data-role="navbar">      
   <ul>
-    <li><a href="" data-icon="star">Compare</a></li>
+    <li><a href="javascript:compareProperty()" data-icon="star">Compare</a></li>
     <li><a href="javascript:addEditDeleteProperty(-1)" data-icon="plus">Add Property</a></li>
     <li><a href="#settings_screen" data-icon="gear">Settings</a></li>
 </ul>
@@ -196,6 +199,34 @@
 </div> <!--end of footer-->
 
 </div> <!--End Property View-->
+
+
+
+
+
+
+
+
+
+<!--Property Compare-->
+<div data-role="page" id="property_compare_screen" data-theme="a">
+  <div data-role="header" data-position="fixed" data-tap-toggle="false">
+      <h1 id="propertycompareh3">Compare</h1>
+      <a href="#" data-icon="back" data-rel="back" class="ui-btn-right">Back</a>
+  </div>
+  <div data-role="content" id="property_compare_content"></div> <!--Div where code content is inserted-->
+<!--Footer-->
+<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+  <div data-role="navbar">  
+  <ul>
+    <li><a href="#property_list_screen" data-icon="home">Home</a></li>
+    <li><a href="javascript:addEditDeleteProperty(-1)" data-icon="plus">Add Property</a></li>
+    <li><a href="#settings_screen" data-icon="gear">Settings</a></li>
+</ul>
+</div>
+</div> <!--end of footer-->
+
+</div> <!--End Property Compare-->
 
 
 
@@ -304,8 +335,8 @@
 
 <!--Settings-->
 <div data-role="page" id="settings_screen" data-theme="a">
-  <div data-role="header" data-position="fixed">
-      <h1 id="propertybreakdownh1">Settings</h1>
+  <div data-role="header" data-position="fixed" data-tap-toggle="false">
+      <h1 id="propertysettingsh1">Settings</h1>
       <a href="#" data-icon="back" data-rel="back" class="ui-btn-right">Back</a>
   </div>
   <div data-role="content" id="settingsContent">
@@ -315,7 +346,7 @@
     <input type="range" id="ltv" min="25" value="50" max="100">
 
     <label for="mortgageTerm">Mortgage Term (Years)</label>
-    <input type="range" id="mortgageTerm" min="0" value="20" max="35">
+    <input type="range" id="mortgageTerm" min="1" value="20" max="35">
 
     <label for="interestRate">Interest Rate %</label>
     <input type="number" id="interestRate" placeholder="Enter interest rate %">
@@ -339,7 +370,7 @@
 </select>
   </div>
 <!--Footer-->
-<div data-role="footer" data-position="fixed">
+<div data-role="footer" data-position="fixed" data-tap-toggle="false">
   <div data-role="navbar">      
   <ul>
     <li><a href="#property_list_screen" data-icon="home">Home</a></li>

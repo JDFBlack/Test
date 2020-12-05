@@ -13,6 +13,14 @@ $(document).on("pagecontainerbeforechange",function(ev,ui){
   }else if ((ui.toPage[0].id === "property_screen")&&($(".ui-page-active").attr("id") === "settings_screen")){
           //function runs if transfering to property_screen FROM settings_screen
           viewProperty(localStorage.lastPropertyPageViewed);
+}else if ((ui.toPage[0].id === "property_compare_screen")&&($(".ui-page-active").attr("id") === "settings_screen")){
+        //function runs if transfering to property_compare_screen FROM settings_screen
+            compareProperty2(localStorage.lastProp1Compared, localStorage.lastProp2Compared);
+        
+    }else if ((ui.toPage[0].id === "property_screen")&&($(".ui-page-active").attr("id") === "property_directions")){
+        //function runs if transfering to property_screen FROM property_directions
+        viewProperty(localStorage.lastPropertyPageViewed);
+        
   }else if (ui.toPage[0].id === "settings_screen"){
         $("#ltv").val(LTV);
         $("#interestRate").val(interestRate);
